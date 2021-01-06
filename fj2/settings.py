@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-EASY_MAPS_GOOGLE_KEY  = 'AIzaSyDFBodxs__6948mVHlOY4tS6XaZ-BG5EqM'
+EASY_MAPS_GOOGLE_KEY  = 
 EASY_MAPS_CENTER = (49.2827, 123.1207)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -23,7 +23,7 @@ EASY_MAPS_CENTER = (49.2827, 123.1207)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'eu_uyg=c77^)t_t*sp)heaa(9jr%g#@#)ij6x3c49q#)9m1t48'
 
-# Google maps api key - AIzaSyDFBodxs__6948mVHlOY4tS6XaZ-BG5EqM
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

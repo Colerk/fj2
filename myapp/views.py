@@ -12,7 +12,6 @@ from django.db.models import Count
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-# EASY_MAPS_GOOGLE_KEY  = 'AIzaSyDFBodxs__6948mVHlOY4tS6XaZ-BG5EqM'
 
 def FishJournal_detail(request):
     records = reversed(JournalRecord.objects.all())
