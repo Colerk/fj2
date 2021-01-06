@@ -1,0 +1,151 @@
+{% load crispy_forms_tags %}
+<!-- {% load easy_maps_tags %} -->
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<html lang="en">
+<style>
+
+.city {
+  background-color: tomato;
+  color: white;
+  border: 2px solid black;
+  margin: 20px;
+  padding: 20px;
+}
+
+.entry {
+  background-color: lightgrey;
+  border-radius: 8px;
+  margin: 20px;
+  padding: 10px;
+
+}
+
+.input{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px;
+  box-sizing: border-box;
+}
+
+.asteriskField {
+    display: none;
+}
+
+.spacing {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.text {
+  color: white;
+}
+
+</style>
+<head>
+  <meta charset='utf-8'>
+  <meta name = 'viewport' content='with=device-width, intial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Fish Journal</title>
+</head>
+<body>
+  <nav class='navbar  navbar-light bg-dark'>
+  <a href='http://127.0.0.1:8000/' class=navbar-brand'>
+    <img src='https://i.postimg.cc/6QKFnxjG/fishlogo2.png' style=width:100px;height:40px>
+    <span class='text'>Hello, {{request.user}}</span>
+    <button class="btn btn-success"  type="button"><a href="{% url 'logout' %}" class='text-white'>Logout</a></button>
+  </a>
+  </nav>
+  {% for message in messages %}
+    <p>{{message}}</p>
+  {% endfor %}
+  <form action="." method='post'>
+    {% csrf_token %}
+    <div class="entry">
+
+    <h4> Enter Catch </h4>
+      <div class="form-row spacing">
+          <div class="form-group col-md-4">
+            {{ form.size|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.species|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.location|as_crispy_field }}
+          </div>
+      </div>
+      <div class="form-row pt-0">
+          <div class="form-group col-md-4">
+            {{ form.latitude|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.longitude|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.date|as_crispy_field }}
+          </div>
+      </div>
+      <div class="form-row pt-0">
+          <div class="form-group col-md">
+            {{ form.method|as_crispy_field }}
+          </div>
+      </div>
+        <label for="size">Size</label>
+        <!-- {{ form|crispy }} -->
+        <!-- <div class="form-group">
+        <input type="text" class="form-control" id="size" name="size">
+      </div>
+      <div class="form-group">
+        <label for="species">Species</label>
+        <input type="text" class="form-control" id="species" name="species">
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" id="location" name="location">
+      </div>
+      <div class="form-group">
+        <label for="latitude">Latitude</label>
+        <input type="number" class="form-control" id="latitude" name="latitude">
+      </div>
+      <div class="form-group">
+        <label for="longitude">Longitude</label>
+        <input type="number" class="form-control" id="longitude" name="longitude">
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="text" class="form-control" id="date" name="date">
+      </div>
+      <div class="form-group">
+        <label for="method">Method</label>
+        <input type="text" class="form-control" id="method" name="method">
+      </div> -->
+      <button type="submit" class="btn btn-success">Record</button>
+    </div>
+  </form>
+  <h3>Records</h3>
+    <div class='row'>
+      <div class="col">
+        {% for JournalRecord in records %}
+        <div class='city'>
+          <p>{{JournalRecord}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col">
+        {{ m|safe }}
+        <div>
+          <p>Total fish caught: {{ total }}</p>
+          <p>Largest fish caught: {{ largest }} lbs</p>
+          {% for s in per %}
+          <p>{{ s.species }}: {{ s.id__count }}</p>
+          {% endfor %}
+          <p></p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
