@@ -6,7 +6,7 @@ from .forms import CreateUserForm
 from .models import JournalRecord
 from django.shortcuts import render
 import folium
-# import pandas as pd
+from django.shortcuts import (get_object_or_404, render, HttpResponseRedirect) 
 import requests
 from django.db.models import Count
 from django.contrib.auth.forms import UserCreationForm
@@ -62,7 +62,49 @@ def logoutUser(request):
     logout(request)
     return redirect('login')
 
-# -------------------------------------------------------
+# ------------------ List View -------------------------------------
+
+def listView(request):
+    
+    records=reversed(JournalRecord.objects.all())
+    context = {'records':records}
+
+    return render(request, 'listview.html', context)
+
+# ------------------ C-R-U-D  -------------------------------------
+
+def detailView(request, id):
+    
+    detail = JournalRecord.objects.get(id = id)
+    context ={'detail':detail}
+
+    return render(request, 'detailview.html', context)
+
+
+def updateView(request, id):
+    
+    obj = get_object_or_404(JournalRecord, id=id)
+    form = JournalRecordForm(request.POST or None, instance = obj)
+    context = {'form':form, 'obj':obj}
+
+    if form.is_valid():
+        form.save()
+        return redirect("/"+id)
+
+    return render(request, 'updateview.html', context)
+
+def delete(request, id):
+    
+    obj = get_object_or_404(JournalRecord, id=id)
+    context = {'obj':obj}
+
+    if request.method=="POST":
+        obj.delete()
+        return redirect('fj2')
+
+    return render(request, 'deleteview.html', context)
+
+# ------------------ Map -------------------------------------
     # - Folium Map -
 m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
 
@@ -79,6 +121,9 @@ for x in records:
 m.add_child(folium.LatLngPopup())
 
 m = m._repr_html_()
+
+
+
 # -------------------------------------------------------
 
     # Calculating statistics
