@@ -30,7 +30,7 @@
 </nav>
 <div class='city'>
     {{detail}}
-    <button class="btn btn-success"  type="button"><a href="{% url 'logout' %}" class='text-white'>Logout</a></button>
+    <button class="btn btn-info"  type="button"><a href="./{{detail.id}}/update" class='text-white'>Edit</a></button>
     <button class="btn btn-danger"  type="button"><a href='./{{detail.id}}/delete' class='text-white'>Delete</a></button>
 
 </div>

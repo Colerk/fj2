@@ -130,7 +130,9 @@
       <div class="col">
         {% for JournalRecord in records %}
         <div class='city'>
-          <p>{{JournalRecord}}</p>
+          {{JournalRecord}}
+          <button class="btn btn-info float-right"  type="button"><a href="./{{JournalRecord.id}}/update" class='text-white'>Edit</a></button>
+          <button class="btn btn-danger float-right"  type="button"><a href='./{{JournalRecord.id}}/delete' class='text-white'>Delete</a></button>
         </div>
         {% endfor %}
       </div>
@@ -142,8 +144,6 @@
           {% for s in per %}
           <p>{{ s.species }}: {{ s.id__count }}</p>
           {% endfor %}
-          <p></p>
-          <p></p>
         </div>
       </div>
     </div>
