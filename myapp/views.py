@@ -12,7 +12,14 @@ from django.db.models import Count
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+
+## ---------------Homepage--------------------------------
+
+
+
+@login_required(login_url='login')
 def FishJournal_detail(request):
     records = reversed(JournalRecord.objects.all())
     form = JournalRecordForm()
@@ -29,41 +36,47 @@ def FishJournal_detail(request):
 
 # ---------------logins--------------------------------
 def registerPage(request):
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('fj2')
+        form = CreateUserForm()
+    else:
+        if request.method=='POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
+                return redirect('login')
 
-    if request.method=='POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
-            return redirect('login')
-
-    context = {'form':form}
-    return render(request, "register.html", context)
+        context = {'form':form}
+        return render(request, "register.html", context)
 
 def loginPage(request):
-    if request.method=="POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('fj2')
+        form = CreateUserForm()
+    else:
+        if request.method=="POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-                login(request, user)
-                return redirect('fj2')
-        else:
-            messages.info(request, 'Username OR password is incorrect')
+            if user is not None:
+                    login(request, user)
+                    return redirect('fj2')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
 
-    context = {}
-    return render(request, "login.html", context)
+        context = {}
+        return render(request, "login.html", context)
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
 
 # ------------------ List View -------------------------------------
-
+@login_required(login_url='login')
 def listView(request):
     
     records=reversed(JournalRecord.objects.all())
@@ -72,7 +85,7 @@ def listView(request):
     return render(request, 'listview.html', context)
 
 # ------------------ C-R-U-D  -------------------------------------
-
+@login_required(login_url='login')
 def detailView(request, id):
     
     detail = JournalRecord.objects.get(id = id)
@@ -80,7 +93,7 @@ def detailView(request, id):
 
     return render(request, 'detailview.html', context)
 
-
+@login_required(login_url='login')
 def updateView(request, id):
     
     obj = get_object_or_404(JournalRecord, id=id)
@@ -93,6 +106,7 @@ def updateView(request, id):
 
     return render(request, 'updateview.html', context)
 
+@login_required(login_url='login')
 def delete(request, id):
     
     obj = get_object_or_404(JournalRecord, id=id)

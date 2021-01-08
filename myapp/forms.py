@@ -16,23 +16,3 @@ class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
-
-    # def __init__(self, *args, **kwargs):
-    #     super(CreasteUserForm, self).__init__(*args, **kwargs)
-    #     for visible in self.visible_fields():
-    #         visible.field.widget.attrs['class'] = 'form-control'
-
-
-# class ContactForm(forms.Form):
-#     size = forms.CharField()
-#     species = forms.ChoiceField(choices=[
-#     ('fish', 'Chum'),
-#     ('fish', 'Coho'),
-#     ('fish', 'Chinook'),
-#     ('fish', 'Pink'),
-#     ('fish', 'Sockeye'),
-#     ('fish', 'Trout')
-#     ])
-#     location = forms.CharField()
-#     date = forms.CharField()
-#     method = forms.CharField(widget=forms.Textarea)
