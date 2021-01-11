@@ -96,10 +96,10 @@ WSGI_APPLICATION = 'fj2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fj2 - database',
-        'USER': 'postgres',
+        'NAME': 'fj2 - 2nd try',
+        'USER': 'colek',
         'PASSWORD': "Soccer123",
-        'HOST': 'localhost',
+        'HOST': 'database-1.cxpwbr8mtnfi.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

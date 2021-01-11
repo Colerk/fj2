@@ -21,4 +21,4 @@ class JournalRecord(models.Model):
         method = models.CharField(max_length=300)
 
         def __str__(self):
-            return str(self.size) + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
+            return str(self.size) + " lbs" + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
