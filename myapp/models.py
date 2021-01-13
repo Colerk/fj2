@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 #from location_field.models.plain import PlainLocationField
 
 # Create your models here.
@@ -11,6 +12,7 @@ class JournalRecord(models.Model):
         ('Sockeye', 'Sockeye'),
         ('Trout', 'Trout')
         )
+        user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
         size = models.FloatField()
         species = models.CharField(max_length=50, choices=species_choice)
         location = models.CharField(max_length=100)

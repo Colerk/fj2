@@ -89,7 +89,7 @@ def updateView(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect("/"+id)
+        return redirect("/")
 
     return render(request, 'updateview.html', context)
 
@@ -106,38 +106,39 @@ def delete(request, id):
 
 # ------------------ Map -------------------------------------
     # - Folium Map -
-m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
+# m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
 
-records = JournalRecord.objects.all()
+# records = JournalRecord.objects.all()
 
-    # Grabbing flags for all catches
-        #need to add combining of markers when zoom out or too close
-for x in records:
-    folium.Marker(
-        location=[x.latitude, x.longitude],
-        popup=f'{x.size}, {x.species}',
-    ).add_to(m)
+#     # Grabbing flags for all catches
+#         #need to add combining of markers when zoom out or too close
+# for x in records:
+#     folium.Marker(
+#         location=[x.latitude, x.longitude],
+#         popup=f'{x.size}, {x.species}',
+#     ).add_to(m)
 
-m.add_child(folium.LatLngPopup())
+# m.add_child(folium.LatLngPopup())
 
-m = m._repr_html_()
+# m = m._repr_html_()
 
 
 
-# -------------------------------------------------------
+# # -------------------------------------------------------
 
-    # Calculating statistics
-        #Total fish caught
-records = JournalRecord.objects.all()
+#     # Calculating statistics
+#     #     Total fish caught
+# records = JournalRecord.objects.all()
 
-total = len(records)
-        #Location with most catches
+# total = len(records)
 
-# Calculate largest fish caught
-def largest():
-    l = JournalRecord.objects.order_by('-size')[:1]
-    for x in l:
-        return (x.size)
+#         #Location with most catches
 
-# Calculate per species
-per = JournalRecord.objects.values('species').annotate(Count('id')).order_by().filter(id__count__gt=0)
+# # Calculate largest fish caught
+# def largest():
+#     l = JournalRecord.objects.order_by('-size')[:1]
+#     for x in l:
+#         return (x.size)
+
+# # Calculate per species
+# per = JournalRecord.objects.values('species').annotate(Count('id')).order_by().filter(id__count__gt=0)
