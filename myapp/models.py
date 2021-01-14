@@ -12,7 +12,6 @@ class JournalRecord(models.Model):
         ('Sockeye', 'Sockeye'),
         ('Trout', 'Trout')
         )
-        user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
         size = models.FloatField()
         species = models.CharField(max_length=50, choices=species_choice)
         location = models.CharField(max_length=100)
@@ -24,3 +23,11 @@ class JournalRecord(models.Model):
 
         def __str__(self):
             return str(self.size) + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
+
+
+class Profile(models.Model):
+        user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+        name = models.CharField(max_length=200, null=True)
+
+        def __str__(self):
+            return self.name

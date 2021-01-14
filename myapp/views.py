@@ -3,7 +3,7 @@ from django.http import HttpResponse
 #from .forms import ContactForm
 from .forms import JournalRecordForm
 from .forms import CreateUserForm
-from .models import JournalRecord
+from .models import JournalRecord, Profile
 from django.shortcuts import render
 import folium
 from django.shortcuts import (get_object_or_404, render, HttpResponseRedirect) 
@@ -13,9 +13,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
+
+
+
 def FishJournal_detail(request):
     records = reversed(JournalRecord.objects.all())
     form = JournalRecordForm()
+
 
     if request.method == 'POST':
         form = JournalRecordForm(request.POST)
@@ -106,39 +110,40 @@ def delete(request, id):
 
 # ------------------ Map -------------------------------------
     # - Folium Map -
-# m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
+m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
 
-# records = JournalRecord.objects.all()
+records = JournalRecord.objects.all()
 
-#     # Grabbing flags for all catches
-#         #need to add combining of markers when zoom out or too close
-# for x in records:
-#     folium.Marker(
-#         location=[x.latitude, x.longitude],
-#         popup=f'{x.size}, {x.species}',
-#     ).add_to(m)
+    # Grabbing flags for all catches
+        #need to add combining of markers when zoom out or too close
+for x in records:
+    folium.Marker(
+        location=[x.latitude, x.longitude],
+        popup=f'{x.size}, {x.species}',
+    ).add_to(m)
 
-# m.add_child(folium.LatLngPopup())
+m.add_child(folium.LatLngPopup())
 
-# m = m._repr_html_()
+m = m._repr_html_()
 
 
 
-# # -------------------------------------------------------
+# -------------------------------------------------------
 
-#     # Calculating statistics
-#     #     Total fish caught
-# records = JournalRecord.objects.all()
+    # Calculating statistics
+    #     Total fish caught
+records = JournalRecord.objects.all()
 
-# total = len(records)
+total = len(records)
 
-#         #Location with most catches
+        #Location with most catches
 
-# # Calculate largest fish caught
-# def largest():
-#     l = JournalRecord.objects.order_by('-size')[:1]
-#     for x in l:
-#         return (x.size)
+# Calculate largest fish caught
+def largest():
+    l = JournalRecord.objects.order_by('-size')[:1]
+    for x in l:
+        return (x.size)
 
-# # Calculate per species
-# per = JournalRecord.objects.values('species').annotate(Count('id')).order_by().filter(id__count__gt=0)
+# Calculate per species
+per = JournalRecord.objects.values('species').annotate(Count('id')).order_by().filter(id__count__gt=0)
+

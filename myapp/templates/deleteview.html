@@ -21,13 +21,7 @@
 
 <body>
 
-<nav class='navbar  navbar-light bg-dark'>
-    <a href='http://127.0.0.1:8000/' class=navbar-brand'>
-    <img src='https://i.postimg.cc/6QKFnxjG/fishlogo2.png' style=width:100px;height:40px>
-    <span class='text'>Hello, {{request.user}}</span>
-    <button class="btn btn-success"  type="button"><a href="{% url 'logout' %}" class='text-white'>Logout</a></button>
-    </a>
-</nav>
+  {% include "./navbar.html" %}
 
 
 <form method="POST"> 
