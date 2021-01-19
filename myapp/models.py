@@ -20,14 +20,7 @@ class JournalRecord(models.Model):
         #location = PlainLocationField(based_fields=['city'], zoom=7)
         date = models.CharField(max_length=100)
         method = models.CharField(max_length=300)
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
 
         def __str__(self):
             return str(self.size) + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
-
-
-class Profile(models.Model):
-        user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-        name = models.CharField(max_length=200, null=True)
-
-        def __str__(self):
-            return self.name

@@ -12,5 +12,6 @@ urlpatterns = [
     path('<str:id>', views.detailView, name="detailview"),
     path('<str:id>/update', views.updateView, name="updateview"),
     path('<str:id>/delete', views.delete, name="delete"),
-
+    # path('map/', views.plotting, name="map"),
+    # path('', views.total, name="total"),
 ]

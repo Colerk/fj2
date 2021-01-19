@@ -123,7 +123,7 @@
   <h3>Records</h3>
     <div class='row'>
       <div class="col">
-        {% for JournalRecord in records %}
+        {% for JournalRecord in lists %}
         <div class='city'>
           {{JournalRecord}}
           <button class="btn btn-info float-right"  type="button"><a href="./{{JournalRecord.id}}/update" class='text-white'>Edit</a></button>
@@ -135,7 +135,7 @@
         {{ m|safe }}
         <div>
           <p>Total fish caught: {{ total }}</p>
-          <p>Largest fish caught: {{ largest }} lbs</p>
+          <p>Largest fish caught: {{ largest.size }} lbs</p>
           {% for s in per %}
           <p>{{ s.species }}: {{ s.id__count }}</p>
           {% endfor %}

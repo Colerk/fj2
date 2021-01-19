@@ -3,7 +3,7 @@ from django.http import HttpResponse
 #from .forms import ContactForm
 from .forms import JournalRecordForm
 from .forms import CreateUserForm
-from .models import JournalRecord, Profile
+from .models import JournalRecord
 from django.shortcuts import render
 import folium
 from django.shortcuts import (get_object_or_404, render, HttpResponseRedirect) 
@@ -15,20 +15,37 @@ from django.contrib.auth import authenticate, login, logout
 
 
 
-
 def FishJournal_detail(request):
-    records = reversed(JournalRecord.objects.all())
     form = JournalRecordForm()
-
 
     if request.method == 'POST':
         form = JournalRecordForm(request.POST)
+        form.instance.user = request.user
         if form.is_valid():
             form.save()
             messages.success(request, 'Entry Completed')
         return redirect('fj2')
 
-    context = {'records':records, 'form':form, 'total':total, 'largest':largest, 'per':per, 'm':m}
+# --- Statistics
+    records = JournalRecord.objects.all().filter(user=request.user)
+    lists = reversed(records)
+    total = len(records)
+    per = JournalRecord.objects.values('species').annotate(Count('id')).filter(id__count__gt=0, user=request.user)
+    largest = records.order_by('-size')[0]
+
+# --- Map functionality - for loop to find markers
+    m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
+
+    for x in records:
+        folium.Marker(
+            location=[x.latitude, x.longitude],
+            popup=f'{x.size}, {x.species}',
+        ).add_to(m)
+
+    m.add_child(folium.LatLngPopup())
+    m = m._repr_html_()
+
+    context = {'lists':lists, 'form':form, 'total':total, 'largest':largest, 'per':per, 'm':m}
     return render(request, "form.html", context)
 
 # ---------------logins--------------------------------
@@ -107,43 +124,3 @@ def delete(request, id):
         return redirect('fj2')
 
     return render(request, 'deleteview.html', context)
-
-# ------------------ Map -------------------------------------
-    # - Folium Map -
-m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
-
-records = JournalRecord.objects.all()
-
-    # Grabbing flags for all catches
-        #need to add combining of markers when zoom out or too close
-for x in records:
-    folium.Marker(
-        location=[x.latitude, x.longitude],
-        popup=f'{x.size}, {x.species}',
-    ).add_to(m)
-
-m.add_child(folium.LatLngPopup())
-
-m = m._repr_html_()
-
-
-
-# -------------------------------------------------------
-
-    # Calculating statistics
-    #     Total fish caught
-records = JournalRecord.objects.all()
-
-total = len(records)
-
-        #Location with most catches
-
-# Calculate largest fish caught
-def largest():
-    l = JournalRecord.objects.order_by('-size')[:1]
-    for x in l:
-        return (x.size)
-
-# Calculate per species
-per = JournalRecord.objects.values('species').annotate(Count('id')).order_by().filter(id__count__gt=0)
-
