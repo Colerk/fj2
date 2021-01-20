@@ -43,6 +43,23 @@
   color: white;
 }
 
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.35rem;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
 </style>
 <head>
   <meta charset='utf-8'>
@@ -58,68 +75,94 @@
   <form action="." method='post'>
     {% csrf_token %}
     <div class="entry">
-
     <h4> Enter Catch </h4>
-      <div class="form-row spacing">
-          <div class="form-group col-md-4">
-            {{ form.size|as_crispy_field }}
-          </div>
-          <div class="form-group col-md-4">
-            {{ form.species|as_crispy_field }}
-          </div>
-          <div class="form-group col-md-4">
-            {{ form.location|as_crispy_field }}
-          </div>
+      <div class='form-row'>
+        <div class="form col-md-4">
+          {{ form.size|as_crispy_field }}
+        </div>
+        <div class="form col-md-4">
+          {{ form.species|as_crispy_field }}
+        </div>
+        <div class="form col-md-4">
+          {{ form.location|as_crispy_field }}
+        </div>  
       </div>
       <div class="form-row pt-0">
-          <div class="form-group col-md-4">
-            {{ form.latitude|as_crispy_field }}
-          </div>
-          <div class="form-group col-md-4">
-            {{ form.longitude|as_crispy_field }}
-          </div>
-          <div class="form-group col-md-4">
-            {{ form.date|as_crispy_field }}
-          </div>
+        <div class="form col-md-4">
+          {{ form.latitude|as_crispy_field }}
+        </div>
+        <div class="form col-md-4">
+          {{ form.longitude|as_crispy_field }}
+        </div>
+        <div class="form col-md-4">
+          {{ form.date|as_crispy_field }}
+        </div>
       </div>
       <div class="form-row pt-0">
-          <div class="form-group col-md">
+          <div class="form col-md">
             {{ form.method|as_crispy_field }}
           </div>
       </div>
-        <label for="size">Size</label>
-        <!-- {{ form|crispy }} -->
-        <!-- <div class="form-group">
-        <input type="text" class="form-control" id="size" name="size">
-      </div>
-      <div class="form-group">
-        <label for="species">Species</label>
-        <input type="text" class="form-control" id="species" name="species">
-      </div>
-      <div class="form-group">
-        <label for="location">Location</label>
-        <input type="text" class="form-control" id="location" name="location">
-      </div>
-      <div class="form-group">
-        <label for="latitude">Latitude</label>
-        <input type="number" class="form-control" id="latitude" name="latitude">
-      </div>
-      <div class="form-group">
-        <label for="longitude">Longitude</label>
-        <input type="number" class="form-control" id="longitude" name="longitude">
-      </div>
-      <div class="form-group">
-        <label for="date">Date</label>
-        <input type="text" class="form-control" id="dat
-        e" name="date">
-      </div>
-      <div class="form-group">
-        <label for="method">Method</label>
-        <input type="text" class="form-control" id="method" name="method">
-      </div> -->
       <button type="submit" class="btn btn-success">Record</button>
     </div>
   </form>
+  <div class="row p-4">
+
+    <!--Stat Cards -->
+    <div class="col-xl col-md-6 mb-4 m-auto">
+        <div class="card border-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Total fish caught:</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray00"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl col-md-6 mb-4 m-auto">
+      <div class="card border-success shadow h-100 py-2">
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Largest fish caught: </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ largest.size }} lbs</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-xl col-md-6 mb-5 m-auto">
+    <div class="card border-warning shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Per Species: </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">            
+                        {% for s in per %}
+                        {{ s.species }}: {{ s.id__count }}
+                        {% endfor %}</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  </div>
   <h3>Records</h3>
     <div class='row'>
       <div class="col">

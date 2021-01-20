@@ -12,9 +12,10 @@ from django.db.models import Count
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url='login')
 def FishJournal_detail(request):
     form = JournalRecordForm()
 
@@ -26,14 +27,14 @@ def FishJournal_detail(request):
             messages.success(request, 'Entry Completed')
         return redirect('fj2')
 
-# --- Statistics
+    # --- Statistics
     records = JournalRecord.objects.all().filter(user=request.user)
     lists = reversed(records)
     total = len(records)
     per = JournalRecord.objects.values('species').annotate(Count('id')).filter(id__count__gt=0, user=request.user)
     largest = records.order_by('-size')[0]
 
-# --- Map functionality - for loop to find markers
+    # --- Map functionality - for loop to find markers
     m = folium.Map(width=600, height=475, location=[49.2827, -123.1207])
 
     for x in records:
@@ -84,7 +85,7 @@ def logoutUser(request):
     return redirect('login')
 
 # ------------------ List View -------------------------------------
-
+@login_required(login_url='login')
 def listView(request):
     
     records=reversed(JournalRecord.objects.all())
@@ -93,7 +94,7 @@ def listView(request):
     return render(request, 'listview.html', context)
 
 # ------------------ C-R-U-D  -------------------------------------
-
+@login_required(login_url='login')
 def detailView(request, id):
     
     detail = JournalRecord.objects.get(id = id)
@@ -101,7 +102,7 @@ def detailView(request, id):
 
     return render(request, 'detailview.html', context)
 
-
+@login_required(login_url='login')
 def updateView(request, id):
     
     obj = get_object_or_404(JournalRecord, id=id)
@@ -114,6 +115,7 @@ def updateView(request, id):
 
     return render(request, 'updateview.html', context)
 
+@login_required(login_url='login')
 def delete(request, id):
     
     obj = get_object_or_404(JournalRecord, id=id)
