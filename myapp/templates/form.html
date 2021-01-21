@@ -57,7 +57,23 @@
 .card-body {
   flex: 1 1 auto;
   min-height: 1px;
-  padding: 1.25rem;
+  padding: .75rem;
+}
+
+.border-left-primary {
+  border-left: 0.25rem solid #4e73df !important;
+}
+
+.border-left-success {
+  border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-warning {
+  border-left: 0.25rem solid #f6c23e !important;
+}
+
+.border-left-secondary {
+  border-left: 0.25rem solid #1ca099 !important;
 }
 
 </style>
@@ -110,7 +126,7 @@
 
     <!--Stat Cards -->
     <div class="col-xl col-md-6 mb-4 m-auto">
-        <div class="card border-primary shadow h-100 py-2">
+        <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -127,7 +143,7 @@
     </div>
 
     <div class="col-xl col-md-6 mb-4 m-auto">
-      <div class="card border-success shadow h-100 py-2">
+      <div class="card border-left-success shadow h-100 py-2">
           <div class="card-body">
               <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
@@ -144,7 +160,7 @@
   </div>
 
   <div class="col-xl col-md-6 mb-5 m-auto">
-    <div class="card border-warning shadow h-100 py-2">
+    <div class="card border-left-warning shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
@@ -154,36 +170,51 @@
                         {% for s in per %}
                         {{ s.species }}: {{ s.id__count }}
                         {% endfor %}</div>
-                </div>
-                <div class="col-auto">
+                    </div>
+                  <div class="col-auto">
                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
+      </div>
     </div>
-</div>
   </div>
-  <h3>Records</h3>
-    <div class='row'>
-      <div class="col">
-        {% for JournalRecord in lists %}
-        <div class='city'>
-          {{JournalRecord}}
-          <button class="btn btn-info float-right"  type="button"><a href="./{{JournalRecord.id}}/update" class='text-white'>Edit</a></button>
-          <button class="btn btn-danger float-right"  type="button"><a href='./{{JournalRecord.id}}/delete' class='text-white'>Delete</a></button>
+
+  <!-- Record Body -->
+  <div class='row pl-4'>
+    <div class="col-auto col-lg-7">
+      <div class="card shadow mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h4 class="m-0 font-weight-bold text-primary">Records</h4>
+          </div>
+          <!-- Card Body -->
+          {% for JournalRecord in lists %}
+          <div class="card-body">
+            <div class="col-xl col-md-6 mb-1 m-auto">
+              <div class="card border-left-secondary shadow h-100 py-2">
+                <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ JournalRecord }}</div>
+                          </div>
+                          <div class="col mr-2">
+                            <button class="btn btn-info float-right"  type="button"><a href="./{{JournalRecord.id}}/update" class='text-white'>Edit</a></button>
+                            <button class="btn btn-danger float-right"  type="button"><a href='./{{JournalRecord.id}}/delete' class='text-white'>Delete</a></button>                  
+                          </div>
+                          <div class="col-auto">
+                              <i class="fas fa-calendar fa-2x text-gray00"></i>
+                          </div>
+                      </div>
+                </div>
+              </div>
+            </div>
         </div>
         {% endfor %}
       </div>
-      <div class="col">
-        {{ m|safe }}
-        <div>
-          <p>Total fish caught: {{ total }}</p>
-          <p>Largest fish caught: {{ largest.size }} lbs</p>
-          {% for s in per %}
-          <p>{{ s.species }}: {{ s.id__count }}</p>
-          {% endfor %}
-        </div>
-      </div>
     </div>
+    <div class="col">
+      {{ m|safe }}
+    </div>
+  </div>
 </body>
 </html>
