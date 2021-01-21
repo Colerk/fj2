@@ -23,4 +23,8 @@ class JournalRecord(models.Model):
         user = models.ForeignKey(User, on_delete=models.CASCADE)
 
         def __str__(self):
+<<<<<<< HEAD
             return str(self.size) + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
+=======
+            return str(self.size) + " lbs" + " " + self.species +  " - " + self.location + " - " + self.date + " - " + self.method
+>>>>>>> master
